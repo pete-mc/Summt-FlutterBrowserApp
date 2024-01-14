@@ -222,10 +222,10 @@ class _BrowserState extends State<Browser> with SingleTickerProviderStateMixin {
                   children: <Widget>[
                     Material(
                       color: isCurrentTab
-                          ? Colors.blue
+                          ? const Color(0xFF004C00)
                           : (webViewTab.webViewModel.isIncognitoMode
                               ? Colors.black
-                              : Colors.white),
+                              : const Color(0xFF197419)),
                       child: ListTile(
                         leading: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

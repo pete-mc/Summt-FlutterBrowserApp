@@ -9,6 +9,6 @@ class TabPopupMenuActions {
   static const List<String> choices = <String>[
     CLOSE_TABS,
     NEW_TAB,
-    NEW_INCOGNITO_TAB
+    //NEW_INCOGNITO_TAB
   ];
 }

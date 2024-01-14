@@ -102,7 +102,7 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
                 return leading != null
                     ? AppBar(
                         backgroundColor:
-                            isIncognitoMode ? Colors.black87 : Colors.blue,
+                            isIncognitoMode ? Colors.black87 : const Color(0xFF004C00),
                         leading: _buildAppBarHomePageWidget(),
                         titleSpacing: 0.0,
                         title: _buildSearchTextField(),
@@ -110,7 +110,7 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
                       )
                     : AppBar(
                         backgroundColor:
-                            isIncognitoMode ? Colors.black87 : Colors.blue,
+                            isIncognitoMode ? Colors.black87 : const Color(0xFF004C00),
                         titleSpacing: 10.0,
                         title: _buildSearchTextField(),
                         actions: _buildActionsMenu(),
@@ -136,8 +136,8 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
         if (webViewController != null) {
           var url =
               settings.homePageEnabled && settings.customUrlHomePage.isNotEmpty
-                  ? WebUri(settings.customUrlHomePage)
-                  : WebUri(settings.searchEngine.url);
+                  ? WebUri("https://terrain.scouts.com.au")
+                  : WebUri("https://terrain.scouts.com.au");
           webViewController.loadUrl(urlRequest: URLRequest(url: url));
         } else {
           addNewTab();
@@ -157,65 +157,67 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
       height: 40.0,
       child: Stack(
         children: <Widget>[
-          TextField(
-            onSubmitted: (value) {
-              var url = WebUri(value.trim());
-              if (!url.scheme.startsWith("http") &&
-                  !Util.isLocalizedContent(url)) {
-                url = WebUri(settings.searchEngine.searchUrl + value);
-              }
+          // TextField(
+          //   onSubmitted: (value) {
+          //     var url = WebUri(value.trim());
+          //     if (!url.scheme.startsWith("http") &&
+          //         !Util.isLocalizedContent(url)) {
+          //       url = WebUri(settings.searchEngine.searchUrl + value);
+          //     }
 
-              if (webViewController != null) {
-                webViewController.loadUrl(urlRequest: URLRequest(url: url));
-              } else {
-                addNewTab(url: url);
-                webViewModel.url = url;
-              }
-            },
-            keyboardType: TextInputType.url,
-            focusNode: _focusNode,
-            autofocus: false,
-            controller: _searchController,
-            textInputAction: TextInputAction.go,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(
-                  left: 45.0, top: 10.0, right: 10.0, bottom: 10.0),
-              filled: true,
-              fillColor: Colors.white,
-              border: outlineBorder,
-              focusedBorder: outlineBorder,
-              enabledBorder: outlineBorder,
-              hintText: "Search for or type a web address",
-              hintStyle: const TextStyle(color: Colors.black54, fontSize: 16.0),
+          //     if (webViewController != null) {
+          //       webViewController.loadUrl(urlRequest: URLRequest(url: url));
+          //     } else {
+          //       addNewTab(url: url);
+          //       webViewModel.url = url;
+          //     }
+          //   },
+          //   keyboardType: TextInputType.url,
+          //   focusNode: _focusNode,
+          //   autofocus: false,
+          //   controller: _searchController,
+          //   textInputAction: TextInputAction.go,
+          //   decoration: InputDecoration(
+          //     contentPadding: const EdgeInsets.only(
+          //         left: 45.0, top: 10.0, right: 10.0, bottom: 10.0),
+          //     filled: true,
+          //     fillColor: Colors.white,
+          //     border: outlineBorder,
+          //     focusedBorder: outlineBorder,
+          //     enabledBorder: outlineBorder,
+          //     hintText: "Search for or type a web address",
+          //     hintStyle: const TextStyle(color: Colors.black54, fontSize: 16.0),
+          //   ),
+          //   style: const TextStyle(color: Colors.black, fontSize: 16.0),
+          // ),
+Row(
+        children: [
+          Expanded(
+            /*1*/
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /*2*/
+                const Text(
+                  "Summit | Terrian",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19,
+                  ),
+                ),
+                Text(
+                  "Where every achievement is a summit conquered.",
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 9,
+                  ),
+                ),
+              ],
             ),
-            style: const TextStyle(color: Colors.black, fontSize: 16.0),
-          ),
-          IconButton(
-            icon: Selector<WebViewModel, bool>(
-              selector: (context, webViewModel) => webViewModel.isSecure,
-              builder: (context, isSecure, child) {
-                var icon = Icons.info_outline;
-                if (webViewModel.isIncognitoMode) {
-                  icon = MaterialCommunityIcons.incognito;
-                } else if (isSecure) {
-                  if (webViewModel.url != null &&
-                      webViewModel.url!.scheme == "file") {
-                    icon = Icons.offline_pin;
-                  } else {
-                    icon = Icons.lock;
-                  }
-                }
-
-                return Icon(
-                  icon,
-                  color: isSecure ? Colors.green : Colors.grey,
-                );
-              },
-            ),
-            onPressed: () {
-              showUrlInfo();
-            },
-          ),
+          )
+        ],
+      )
         ],
       ),
     );
@@ -339,6 +341,7 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
       ),
       PopupMenuButton<String>(
         onSelected: _popupMenuChoiceAction,
+        iconColor: Colors.white,
         itemBuilder: (popupMenuContext) {
           var items = [
             CustomPopupMenuItem<String>(
@@ -389,6 +392,18 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
                         child: IconButton(
                             padding: const EdgeInsets.all(0.0),
                             icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              webViewController?.goBack();
+                              Navigator.pop(popupMenuContext);
+                            })),
+                    SizedBox(
+                        width: 35.0,
+                        child: IconButton(
+                            padding: const EdgeInsets.all(0.0),
+                            icon: const Icon(
                               Icons.arrow_forward,
                               color: Colors.black,
                             ),
@@ -396,80 +411,80 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
                               webViewController?.goForward();
                               Navigator.pop(popupMenuContext);
                             })),
-                    SizedBox(
-                        width: 35.0,
-                        child: IconButton(
-                            padding: const EdgeInsets.all(0.0),
-                            icon: Icon(
-                              isFavorite ? Icons.star : Icons.star_border,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                if (favorite != null) {
-                                  if (!browserModel
-                                      .containsFavorite(favorite)) {
-                                    browserModel.addFavorite(favorite);
-                                  } else if (browserModel
-                                      .containsFavorite(favorite)) {
-                                    browserModel.removeFavorite(favorite);
-                                  }
-                                }
-                              });
-                            })),
-                    SizedBox(
-                        width: 35.0,
-                        child: IconButton(
-                            padding: const EdgeInsets.all(0.0),
-                            icon: const Icon(
-                              Icons.file_download,
-                              color: Colors.black,
-                            ),
-                            onPressed: () async {
-                              Navigator.pop(popupMenuContext);
-                              if (webViewModel.url != null &&
-                                  webViewModel.url!.scheme.startsWith("http")) {
-                                var url = webViewModel.url;
-                                if (url == null) {
-                                  return;
-                                }
+                    // SizedBox(
+                    //     width: 35.0,
+                    //     child: IconButton(
+                    //         padding: const EdgeInsets.all(0.0),
+                    //         icon: Icon(
+                    //           isFavorite ? Icons.star : Icons.star_border,
+                    //           color: Colors.black,
+                    //         ),
+                    //         onPressed: () {
+                    //           setState(() {
+                    //             if (favorite != null) {
+                    //               if (!browserModel
+                    //                   .containsFavorite(favorite)) {
+                    //                 browserModel.addFavorite(favorite);
+                    //               } else if (browserModel
+                    //                   .containsFavorite(favorite)) {
+                    //                 browserModel.removeFavorite(favorite);
+                    //               }
+                    //             }
+                    //           });
+                    //         })),
+                    // SizedBox(
+                    //     width: 35.0,
+                    //     child: IconButton(
+                    //         padding: const EdgeInsets.all(0.0),
+                    //         icon: const Icon(
+                    //           Icons.file_download,
+                    //           color: Colors.black,
+                    //         ),
+                    //         onPressed: () async {
+                    //           Navigator.pop(popupMenuContext);
+                    //           if (webViewModel.url != null &&
+                    //               webViewModel.url!.scheme.startsWith("http")) {
+                    //             var url = webViewModel.url;
+                    //             if (url == null) {
+                    //               return;
+                    //             }
 
-                                String webArchivePath =
-                                    "$WEB_ARCHIVE_DIR${Platform.pathSeparator}${url.scheme}-${url.host}${url.path.replaceAll("/", "-")}${DateTime.now().microsecondsSinceEpoch}.${Util.isAndroid() ? WebArchiveFormat.MHT.toValue() : WebArchiveFormat.WEBARCHIVE.toValue()}";
+                    //             String webArchivePath =
+                    //                 "$WEB_ARCHIVE_DIR${Platform.pathSeparator}${url.scheme}-${url.host}${url.path.replaceAll("/", "-")}${DateTime.now().microsecondsSinceEpoch}.${Util.isAndroid() ? WebArchiveFormat.MHT.toValue() : WebArchiveFormat.WEBARCHIVE.toValue()}";
 
-                                String? savedPath =
-                                    (await webViewController?.saveWebArchive(
-                                        filePath: webArchivePath,
-                                        autoname: false));
+                    //             String? savedPath =
+                    //                 (await webViewController?.saveWebArchive(
+                    //                     filePath: webArchivePath,
+                    //                     autoname: false));
 
-                                var webArchiveModel = WebArchiveModel(
-                                    url: url,
-                                    path: savedPath,
-                                    title: webViewModel.title,
-                                    favicon: webViewModel.favicon,
-                                    timestamp: DateTime.now());
+                    //             var webArchiveModel = WebArchiveModel(
+                    //                 url: url,
+                    //                 path: savedPath,
+                    //                 title: webViewModel.title,
+                    //                 favicon: webViewModel.favicon,
+                    //                 timestamp: DateTime.now());
 
-                                if (savedPath != null) {
-                                  browserModel.addWebArchive(
-                                      url.toString(), webArchiveModel);
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                          "${webViewModel.url} saved offline!"),
-                                    ));
-                                  }
-                                  browserModel.save();
-                                } else {
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text("Unable to save!"),
-                                    ));
-                                  }
-                                }
-                              }
-                            })),
+                    //             if (savedPath != null) {
+                    //               browserModel.addWebArchive(
+                    //                   url.toString(), webArchiveModel);
+                    //               if (mounted) {
+                    //                 ScaffoldMessenger.of(context)
+                    //                     .showSnackBar(SnackBar(
+                    //                   content: Text(
+                    //                       "${webViewModel.url} saved offline!"),
+                    //                 ));
+                    //               }
+                    //               browserModel.save();
+                    //             } else {
+                    //               if (mounted) {
+                    //                 ScaffoldMessenger.of(context)
+                    //                     .showSnackBar(const SnackBar(
+                    //                   content: Text("Unable to save!"),
+                    //                 ));
+                    //               }
+                    //             }
+                    //           }
+                    //         })),
                     SizedBox(
                         width: 35.0,
                         child: IconButton(
@@ -760,8 +775,8 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
     var settings = browserModel.getSettings();
 
     url ??= settings.homePageEnabled && settings.customUrlHomePage.isNotEmpty
-        ? WebUri(settings.customUrlHomePage)
-        : WebUri(settings.searchEngine.url);
+        ? WebUri("https://terrain.scouts.com.au")
+        : WebUri("https://terrain.scouts.com.au");
 
     browserModel.addTab(WebViewTab(
       key: GlobalKey(),
@@ -774,8 +789,8 @@ class _WebViewTabAppBarState extends State<WebViewTabAppBar>
     var settings = browserModel.getSettings();
 
     url ??= settings.homePageEnabled && settings.customUrlHomePage.isNotEmpty
-        ? WebUri(settings.customUrlHomePage)
-        : WebUri(settings.searchEngine.url);
+        ? WebUri("https://terrain.scouts.com.au")
+        : WebUri("https://terrain.scouts.com.au");
 
     browserModel.addTab(WebViewTab(
       key: GlobalKey(),

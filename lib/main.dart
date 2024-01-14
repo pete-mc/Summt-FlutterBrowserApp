@@ -40,9 +40,7 @@ void main() async {
   await FlutterDownloader.initialize(
     debug: kDebugMode
   );
-
-  await Permission.camera.request();
-  await Permission.microphone.request();
+  
   await Permission.storage.request();
 
   runApp(
@@ -70,7 +68,7 @@ class FlutterBrowserApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Browser',
+      title: 'Terrain | Summit',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

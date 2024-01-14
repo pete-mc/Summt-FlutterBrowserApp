@@ -52,92 +52,92 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
         title: Text("General Settings"),
         enabled: false,
       ),
-      ListTile(
-        title: const Text("Search Engine"),
-        subtitle: Text(settings.searchEngine.name),
-        trailing: DropdownButton<SearchEngineModel>(
-          hint: const Text("Search Engine"),
-          onChanged: (value) {
-            setState(() {
-              if (value != null) {
-                settings.searchEngine = value;
-              }
-              browserModel.updateSettings(settings);
-            });
-          },
-          value: settings.searchEngine,
-          items: SearchEngines.map((searchEngine) {
-            return DropdownMenuItem(
-              value: searchEngine,
-              child: Text(searchEngine.name),
-            );
-          }).toList(),
-        ),
-      ),
-      ListTile(
-        title: const Text("Home page"),
-        subtitle: Text(settings.homePageEnabled
-            ? (settings.customUrlHomePage.isEmpty
-                ? "ON"
-                : settings.customUrlHomePage)
-            : "OFF"),
-        onTap: () {
-          _customHomePageController.text = settings.customUrlHomePage;
+      // ListTile(
+      //   title: const Text("Search Engine"),
+      //   subtitle: Text(settings.searchEngine.name),
+      //   trailing: DropdownButton<SearchEngineModel>(
+      //     hint: const Text("Search Engine"),
+      //     onChanged: (value) {
+      //       setState(() {
+      //         if (value != null) {
+      //           settings.searchEngine = value;
+      //         }
+      //         browserModel.updateSettings(settings);
+      //       });
+      //     },
+      //     value: settings.searchEngine,
+      //     items: SearchEngines.map((searchEngine) {
+      //       return DropdownMenuItem(
+      //         value: searchEngine,
+      //         child: Text(searchEngine.name),
+      //       );
+      //     }).toList(),
+      //   ),
+      // ),
+      // ListTile(
+      //   title: const Text("Home page"),
+      //   subtitle: Text(settings.homePageEnabled
+      //       ? (settings.customUrlHomePage.isEmpty
+      //           ? "ON"
+      //           : settings.customUrlHomePage)
+      //       : "OFF"),
+      //   onTap: () {
+      //     _customHomePageController.text = settings.customUrlHomePage;
 
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                contentPadding: const EdgeInsets.all(0.0),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    StatefulBuilder(
-                      builder: (context, setState) {
-                        return SwitchListTile(
-                          title: Text(settings.homePageEnabled ? "ON" : "OFF"),
-                          value: settings.homePageEnabled,
-                          onChanged: (value) {
-                            setState(() {
-                              settings.homePageEnabled = value;
-                              browserModel.updateSettings(settings);
-                            });
-                          },
-                        );
-                      },
-                    ),
-                    StatefulBuilder(builder: (context, setState) {
-                      return ListTile(
-                        enabled: settings.homePageEnabled,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    settings.customUrlHomePage = value;
-                                    browserModel.updateSettings(settings);
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                keyboardType: TextInputType.url,
-                                decoration: const InputDecoration(
-                                    hintText: 'Custom URL Home Page'),
-                                controller: _customHomePageController,
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    })
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return AlertDialog(
+      //           contentPadding: const EdgeInsets.all(0.0),
+      //           content: Column(
+      //             mainAxisSize: MainAxisSize.min,
+      //             children: <Widget>[
+      //               StatefulBuilder(
+      //                 builder: (context, setState) {
+      //                   return SwitchListTile(
+      //                     title: Text(settings.homePageEnabled ? "ON" : "OFF"),
+      //                     value: settings.homePageEnabled,
+      //                     onChanged: (value) {
+      //                       setState(() {
+      //                         settings.homePageEnabled = value;
+      //                         browserModel.updateSettings(settings);
+      //                       });
+      //                     },
+      //                   );
+      //                 },
+      //               ),
+      //               StatefulBuilder(builder: (context, setState) {
+      //                 return ListTile(
+      //                   enabled: settings.homePageEnabled,
+      //                   title: Row(
+      //                     mainAxisAlignment: MainAxisAlignment.end,
+      //                     children: <Widget>[
+      //                       Expanded(
+      //                         child: TextField(
+      //                           onSubmitted: (value) {
+      //                             setState(() {
+      //                               settings.customUrlHomePage = value;
+      //                               browserModel.updateSettings(settings);
+      //                               Navigator.pop(context);
+      //                             });
+      //                           },
+      //                           keyboardType: TextInputType.url,
+      //                           decoration: const InputDecoration(
+      //                               hintText: 'Custom URL Home Page'),
+      //                           controller: _customHomePageController,
+      //                         ),
+      //                       )
+      //                     ],
+      //                   ),
+      //                 );
+      //               })
+      //             ],
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
       FutureBuilder(
         future: InAppWebViewController.getDefaultUserAgent(),
         builder: (context, snapshot) {
@@ -188,7 +188,7 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
                 "Package Name: ${packageInfo.packageName}\nVersion: ${packageInfo.version}\nBuild Number: ${packageInfo.buildNumber}";
           }
           return ListTile(
-            title: const Text("Flutter Browser Package Info"),
+            title: const Text("Summit Mobile App Info"),
             subtitle: Text(packageDescription),
             onLongPress: () {
               Clipboard.setData(ClipboardData(text: packageDescription));
@@ -196,39 +196,39 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           );
         },
       ),
-      ListTile(
-        leading: Container(
-          height: 35,
-          width: 35,
-          margin: const EdgeInsets.only(top: 6.0, left: 6.0),
-          child: const CircleAvatar(
-              backgroundImage: AssetImage("assets/icon/icon.png")),
-        ),
-        title: const Text("Flutter InAppWebView Project"),
-        subtitle: const Text(
-            "https://github.com/pichillilorenzo/flutter_inappwebview"),
-        trailing: const Icon(Icons.arrow_forward),
-        onLongPress: () {
-          showGeneralDialog(
-            context: context,
-            barrierDismissible: false,
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const ProjectInfoPopup();
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          );
-        },
-        onTap: () {
-          showGeneralDialog(
-            context: context,
-            barrierDismissible: false,
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const ProjectInfoPopup();
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          );
-        },
-      )
+      // ListTile(
+      //   leading: Container(
+      //     height: 35,
+      //     width: 35,
+      //     margin: const EdgeInsets.only(top: 6.0, left: 6.0),
+      //     child: const CircleAvatar(
+      //         backgroundImage: AssetImage("assets/icon/icon.png")),
+      //   ),
+      //   title: const Text("Flutter InAppWebView Project"),
+      //   subtitle: const Text(
+      //       "https://github.com/pichillilorenzo/flutter_inappwebview"),
+      //   trailing: const Icon(Icons.arrow_forward),
+      //   onLongPress: () {
+      //     showGeneralDialog(
+      //       context: context,
+      //       barrierDismissible: false,
+      //       pageBuilder: (context, animation, secondaryAnimation) {
+      //         return const ProjectInfoPopup();
+      //       },
+      //       transitionDuration: const Duration(milliseconds: 300),
+      //     );
+      //   },
+      //   onTap: () {
+      //     showGeneralDialog(
+      //       context: context,
+      //       barrierDismissible: false,
+      //       pageBuilder: (context, animation, secondaryAnimation) {
+      //         return const ProjectInfoPopup();
+      //       },
+      //       transitionDuration: const Duration(milliseconds: 300),
+      //     );
+      //   },
+      // )
     ];
 
     if (Util.isAndroid()) {
@@ -268,20 +268,20 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
         title: Text("Current WebView Settings"),
         enabled: false,
       ),
-      SwitchListTile(
-        title: const Text("JavaScript Enabled"),
-        subtitle:
-            const Text("Sets whether the WebView should enable JavaScript."),
-        value: currentWebViewModel.settings?.javaScriptEnabled ?? true,
-        onChanged: (value) async {
-          currentWebViewModel.settings?.javaScriptEnabled = value;
-          webViewController?.setSettings(
-              settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
-          setState(() {});
-        },
-      ),
+      // SwitchListTile(
+      //   title: const Text("JavaScript Enabled"),
+      //   subtitle:
+      //       const Text("Sets whether the WebView should enable JavaScript."),
+      //   value: currentWebViewModel.settings?.javaScriptEnabled ?? true,
+      //   onChanged: (value) async {
+      //     currentWebViewModel.settings?.javaScriptEnabled = value;
+      //     webViewController?.setSettings(
+      //         settings: currentWebViewModel.settings ?? InAppWebViewSettings());
+      //     currentWebViewModel.settings = await webViewController?.getSettings();
+      //     browserModel.save();
+      //     setState(() {});
+      //   },
+      // ),
       SwitchListTile(
         title: const Text("Cache Enabled"),
         subtitle:

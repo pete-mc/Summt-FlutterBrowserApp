@@ -193,6 +193,7 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
         widget.webViewModel.loaded = false;
         widget.webViewModel.setLoadedResources([]);
         widget.webViewModel.setJavaScriptConsoleResults([]);
+        
 
         if (isCurrentTab(currentWebViewModel)) {
           currentWebViewModel.updateWithValue(widget.webViewModel);
@@ -201,6 +202,12 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
         }
       },
       onLoadStop: (controller, url) async {
+
+        //SUMMIT: page finished loaded
+
+        controller.injectCSSFileFromUrl(urlFile: WebUri("https://cdn.jsdelivr.net/combine/npm/terrain-summit/summit.min.css,npm/terrain-summit/dependencies/datatables.min.css,npm/terrain-summit/dependencies/flatpickr.min.css"));
+        controller.injectJavascriptFileFromUrl(urlFile: WebUri("https://cdn.jsdelivr.net/npm/terrain-summit@latest/summit.js"));
+
         _pullToRefreshController?.endRefreshing();
 
         widget.webViewModel.url = url;

@@ -10,7 +10,7 @@ class TabViewerPopupMenuActions {
 
   static const List<String> choices = <String>[
     NEW_TAB,
-    NEW_INCOGNITO_TAB,
+    //NEW_INCOGNITO_TAB,
     CLOSE_ALL_TABS,
     SETTINGS,
   ];
