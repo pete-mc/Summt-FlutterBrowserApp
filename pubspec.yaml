@@ -55,7 +55,7 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_colorpicker: ^1.0.3
   intl: ^0.18.1
-  uuid: ^4.2.1
+  uuid: ^4.3.3
   collection: ^1.17.1
 
   # The following adds the Cupertino Icons font to your application.
