@@ -58,7 +58,6 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
-
     signingConfigs {
         release {
             keyAlias System.getenv('PLAY_UPLOAD_ALIAS')
@@ -67,6 +66,7 @@ android {
             storePassword System.getenv('PLAY_UPLOAD_PASSWORD')
         }
     }
+
 
     buildTypes {
         release {
