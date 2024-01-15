@@ -32,8 +32,9 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    namespace 'xyz.mcdonald.terrainsummit'
     compileSdk 34
-    ndkVersion flutter.ndkVersion
+    ndkVersion '25.1.8937393'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,32 +51,37 @@ android {
 
 
     defaultConfig {
-        applicationId "com.pichillilorenzo.flutter_browser"
+        applicationId "xyz.mcdonald.terrainsummit"
         minSdkVersion 20
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
-
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            keyAlias System.getenv('PLAY_UPLOAD_ALIAS')
+            keyPassword System.getenv('PLAY_UPLOAD_PASSWORD')
+            storeFile System.getenv('PLAY_UPLOAD_KEYSTORE') ? file(System.getenv('PLAY_UPLOAD_KEYSTORE')) : null
+            storePassword System.getenv('PLAY_UPLOAD_PASSWORD')
         }
     }
 
+
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (System.getenv('PLAY_UPLOAD_KEYSTORE') != null &&
+                    System.getenv('PLAY_UPLOAD_ALIAS') != null &&
+                    System.getenv('PLAY_UPLOAD_PASSWORD') != null) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
             ndk {
                 debugSymbolLevel 'FULL'
             }
         }
     }
-    namespace 'com.pichillilorenzo.flutter_browser'
     lint {
         disable 'InvalidPackage'
     }
@@ -88,7 +94,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.google.android.material:material:1.8.0-alpha01'
+    implementation 'com.google.android.material:material:1.12.0-alpha03'
 
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
