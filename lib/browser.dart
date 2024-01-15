@@ -25,7 +25,7 @@ class Browser extends StatefulWidget {
 
 class _BrowserState extends State<Browser> with SingleTickerProviderStateMixin {
   static const platform =
-      MethodChannel('com.pichillilorenzo.flutter_browser.intent_data');
+      MethodChannel('xyz.mcdonald.terrainsummit.intent_data');
 
   var _isRestored = false;
 
