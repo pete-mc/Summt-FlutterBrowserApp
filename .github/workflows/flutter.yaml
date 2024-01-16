@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - 2.5.0
 
 permissions:
   contents: write
@@ -28,6 +27,14 @@ jobs:
         key: ${{ runner.os }}-android-${{ hashFiles('**/*.gradle') }}
         restore-keys: |
           ${{ runner.os }}-android-${{ hashFiles('**/*.gradle') }}
+
+    - name: Cache Pub Dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.pub-cache
+        key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
 
     - uses: subosito/flutter-action@v2
       with:
