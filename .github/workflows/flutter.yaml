@@ -22,7 +22,7 @@ jobs:
 
     # Restore & Cache Dependencies
     - name: Restore Dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: /usr/local/lib/android/sdk
         key: ${{ runner.os }}-android-${{ hashFiles('**/*.gradle') }}
